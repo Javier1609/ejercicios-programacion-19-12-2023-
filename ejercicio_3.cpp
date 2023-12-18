@@ -1,31 +1,36 @@
 #include <stdio.h>
 
 int main() {
-    FILE *file = fopen("file.txt", "w");
-    if (file == NULL) {
-        printf("El archivo no se pudo abrir.\n");
+
+    FILE *archivo;
+    archivo = fopen("archivo.txt", "w");
+
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo.\n");
         return 1;
     }
 
-    fprintf(file, "prueba 4\n");
+
+    fprintf(archivo, "Hola, este es un ejemplo.\n");
 
 
-    fclose(file);
+
+    fclose(archivo);
+
+    archivo = fopen("archivo.txt", "r");
 
 
-    file = fopen("file.txt", "r");
-    if (file == NULL) {
-        printf("El archivo no se pudo abrir para lectura.\n");
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo para lectura.\n");
         return 1;
     }
 
     char buffer[100];
-    fscanf(file, "%s", buffer);
 
-    printf("Leido del archivo: %s\n", buffer);
+    while (fscanf(archivo, "%99[^\n]\n", buffer) != EOF) {
+        printf("%s\n", buffer);
+    }
 
+    fclose(archivo);
 
-    fclose(file);
-
-    return 0;
 }
